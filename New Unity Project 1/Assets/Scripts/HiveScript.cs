@@ -18,7 +18,7 @@ public class HiveScript : MonoBehaviour {
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody>();
-        EventManager.onStartHiveJump += jump;
+  //      EventManager.onStartHiveJump += jump;
 
         beeStart = 1;
 
@@ -35,10 +35,10 @@ public class HiveScript : MonoBehaviour {
     
     void OnCollisionEnter(Collision collision)
     {
-        grounded = true;
+     //   grounded = true;
     }
     void OnCollisionExit(Collision collision)
     {
-        grounded = false;
+     //   grounded = false;
     }
 }

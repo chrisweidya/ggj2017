@@ -5,15 +5,15 @@ using UnityEngine;
 public class Platform_RotatorR : MonoBehaviour
 {
     //  public GameObject hive;
-    public HiveScript hiveScript;
-    public static float maxJumpHeight = 0.5f;
-    public static float jumpSpeed = 6.0f;
-    public static float fallSpeed = 20.0f;
-    private bool grounded = true;
-    private bool inputJump = false;
+//    public HiveScript hiveScript;
+//    public static float maxJumpHeight = 0.5f;
+//    public static float jumpSpeed = 6.0f;
+//    public static float fallSpeed = 20.0f;
+//    private bool grounded = true;
+//    private bool inputJump = false;
     private Vector3 groundPos;
-    private bool inContact = false;
-    private bool isJumping = false;
+ //   private bool inContact = false;
+ //   private bool isJumping = false;
     private Rigidbody rb;
     private Quaternion originalRotation;
     private Vector3 originalPos;
@@ -21,11 +21,12 @@ public class Platform_RotatorR : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        rb.centerOfMass = new Vector3(-0.5f, 0, 0);
         //      hiveScript = hive.GetComponent<HiveScript>();
         EventManager.onStartJumpR += jump;
         groundPos = transform.localPosition;
         //   groundHeight = transform.position.y;
-        maxJumpHeight = transform.localPosition.y + maxJumpHeight;
+//        maxJumpHeight = transform.localPosition.y + maxJumpHeight;
         originalRotation = transform.rotation;
         originalPos = transform.localPosition;
     }
@@ -33,29 +34,30 @@ public class Platform_RotatorR : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.localPosition == groundPos)
-            grounded = true;
-        else
-            grounded = false;
+ //       if (transform.localPosition == groundPos)
+//            grounded = true;
+ //       else
+ //           grounded = false;
     }
     void FixedUpdate()
     {
     }
 
-    private void jump()
+    private void jump(float charge)
     {
-        StartCoroutine("turn");
+        StartCoroutine(turn(charge));
     }
     void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Hive"))
-            inContact = true;
+   //     if (collision.gameObject.CompareTag("Hive"))
+  //          inContact = true;
     }
     void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Hive"))
-            inContact = false;
+  //      if (collision.gameObject.CompareTag("Hive"))
+   //         inContact = false;
     }
+    /*
     IEnumerator Jump()
     {
         while (true)
@@ -79,13 +81,15 @@ public class Platform_RotatorR : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
     }
-    IEnumerator turn()
+    */
+    IEnumerator turn(float charge)
     {
-        float v = 80 * Time.deltaTime;
+        float v = charge * 150 * Time.deltaTime;
         rb.AddTorque(transform.forward * v, ForceMode.Impulse);
 
-        rb.constraints &= ~RigidbodyConstraints.FreezePositionY;
-        rb.AddForce(transform.up * 2f, ForceMode.Impulse);
+        rb.constraints &= (~RigidbodyConstraints.FreezePositionY & ~RigidbodyConstraints.FreezePositionX);
+     //   rb.AddForce(Quaternion.AngleAxis(45, Vector3.forward) * Vector3.up * 5f , ForceMode.Impulse);
+        Debug.DrawRay(transform.position, Quaternion.AngleAxis(45, Vector3.forward) * Vector3.up * 2f);
         yield return new WaitForSeconds(0.1f);
         rb.angularVelocity = Vector3.zero;
 
@@ -93,7 +97,7 @@ public class Platform_RotatorR : MonoBehaviour
 
         transform.rotation = originalRotation;
         transform.localPosition = originalPos;
-        rb.constraints |= RigidbodyConstraints.FreezePositionY;
+        rb.constraints |= (RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionX);
         yield return new WaitForEndOfFrame();
     }
 }

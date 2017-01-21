@@ -2,20 +2,20 @@
 
 public class EventManager : MonoBehaviour
 {
-    public delegate void StartJumpR();
+    public delegate void StartJumpR(float charge);
     public static event StartJumpR onStartJumpR;
-    public static void fireOnStartJumpR ()
+    public static void fireOnStartJumpR (float charge)
     { 
         if (onStartJumpR != null)
-            onStartJumpR();
+            onStartJumpR(charge);
     }
 
-    public delegate void StartJumpL();
+    public delegate void StartJumpL(float charge);
     public static event StartJumpL onStartJumpL;
-    public static void fireOnStartJumpL()
+    public static void fireOnStartJumpL(float charge)
     {
         if (onStartJumpL != null)
-            onStartJumpL();
+            onStartJumpL(charge);
     }
 
     public delegate void StartHiveJump();
