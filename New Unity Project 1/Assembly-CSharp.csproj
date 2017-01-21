@@ -46,12 +46,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\BeeHive.cs" />
+     <Compile Include="Assets\Scripts\BeeScript.cs" />
      <Compile Include="Assets\Scripts\EventManager.cs" />
      <Compile Include="Assets\Scripts\HiveScript.cs" />
      <Compile Include="Assets\Scripts\InputScript.cs" />
      <Compile Include="Assets\Scripts\Platform_JumperL.cs" />
      <Compile Include="Assets\Scripts\Platform_JumperR.cs" />
+     <Compile Include="Assets\Scripts\Platform_RotatorL.cs" />
+     <Compile Include="Assets\Scripts\Platform_RotatorR.cs" />
      <Compile Include="Assets\Scripts\Startup.cs" />
+     <Compile Include="Assets\Scripts\Tags.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

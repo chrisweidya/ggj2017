@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Platform_JumperR : MonoBehaviour
+public class Platform_RotatorL : MonoBehaviour
 {
-    public GameObject hive;
+  //  public GameObject hive;
     public HiveScript hiveScript;
     public static float maxJumpHeight = 0.5f;
     public static float jumpSpeed = 6.0f;
@@ -13,15 +13,21 @@ public class Platform_JumperR : MonoBehaviour
     private bool inputJump = false;
     private Vector3 groundPos;
     private bool inContact = false;
+    private bool isJumping = false;
+    private Rigidbody rb;
+    private Quaternion originalRotation;
+    private Vector3 originalPos;
     // Use this for initialization
     void Start()
     {
-
-        hiveScript = hive.GetComponent<HiveScript>();
-        EventManager.onStartJumpR += jump;
+        rb = GetComponent<Rigidbody>();
+        //      hiveScript = hive.GetComponent<HiveScript>();
+        EventManager.onStartJumpL += jump;
         groundPos = transform.localPosition;
         //   groundHeight = transform.position.y;
         maxJumpHeight = transform.localPosition.y + maxJumpHeight;
+        originalRotation = transform.rotation;
+        originalPos = transform.position;
     }
 
     // Update is called once per frame
@@ -32,15 +38,13 @@ public class Platform_JumperR : MonoBehaviour
         else
             grounded = false;
     }
+    void FixedUpdate()
+    {
+    }
 
     private void jump()
     {
-        if (grounded)
-        {
-            groundPos = transform.localPosition;
-            inputJump = true;
-            StartCoroutine("Jump");
-        }
+        StartCoroutine("turn");
     }
     void OnCollisionStay(Collision collision)
     {
@@ -56,6 +60,7 @@ public class Platform_JumperR : MonoBehaviour
     {
         while (true)
         {
+
             if (transform.localPosition.y >= maxJumpHeight)
                 inputJump = false;
             if (inputJump)
@@ -73,5 +78,22 @@ public class Platform_JumperR : MonoBehaviour
 
             yield return new WaitForEndOfFrame();
         }
+    }
+    IEnumerator turn()
+    {
+        float v = 60 * Time.deltaTime;
+        rb.AddTorque(-transform.forward * v, ForceMode.Impulse);
+
+        rb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+        rb.AddForce(transform.up * 2f, ForceMode.Impulse);
+        yield return new WaitForSeconds(0.1f);
+        rb.angularVelocity = Vector3.zero;
+
+        yield return new WaitForSeconds(0.15f);
+
+        transform.rotation = originalRotation;
+        transform.position = originalPos;
+        rb.constraints |= RigidbodyConstraints.FreezePositionY;
+        yield return new WaitForEndOfFrame();
     }
 }

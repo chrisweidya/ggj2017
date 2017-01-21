@@ -6,13 +6,17 @@ public class Startup : MonoBehaviour {
     public GameObject l_platform;
     public GameObject r_platform;
     public int count = 0;
+    private GameObject[] platform;
     void Awake() {
-        for(int i=0-count/2; i<count/2; i+=2) {
-            Instantiate(l_platform, new Vector3(0.47f*i, 0, 0), Quaternion.identity);
-        }
-        for (int i = 1 - count / 2; i < count / 2; i += 2)
-        {
-            Instantiate(r_platform, new Vector3(0.47f * i, 0, 0), Quaternion.identity);
+        platform = new GameObject[count];
+        int j = 0;
+        for(int i=0-count/2; i<count/2; i++) {
+            float y = Mathf.Sin(i*1.0f / count * 2 * Mathf.PI);
+            //     Instantiate(l_platform, new Vector3(0.47f*i, 0, 0), Quaternion.identity);
+            if (i % 2 == 0)
+                platform[j++] = Instantiate(l_platform, new Vector3(0.95f * i, y, 0), Quaternion.identity);
+            else
+                platform[j++] = Instantiate(r_platform, new Vector3(0.95f * i, y, 0), Quaternion.identity);
         }
     }
 	// Use this for initialization
@@ -24,4 +28,8 @@ public class Startup : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    void FixedUpdate()
+    {
+    }
 }

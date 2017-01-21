@@ -5,6 +5,7 @@ using UnityEngine;
 public class HiveScript : MonoBehaviour {
     private Rigidbody rb;
     private bool isJumping = false;
+    public bool grounded = true;
 	// Use this for initialization
 	void Start () {
         rb = GetComponent<Rigidbody>();
@@ -13,22 +14,19 @@ public class HiveScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+    }
 
     void jump()
     {
-        if (!isJumping) {
-            rb.AddForce(new Vector3(0, 0.0005f * Time.deltaTime, 0), ForceMode.Impulse);
-            isJumping = true;
-        }
+        rb.AddForce(new Vector3(0, 0.10f * Time.deltaTime, 0), ForceMode.Impulse);
     }
     
-    void onCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Platform"))
-        {
-            isJumping = false;
-        }
+        grounded = true;
+    }
+    void OnCollisionExit(Collision collision)
+    {
+        grounded = false;
     }
 }

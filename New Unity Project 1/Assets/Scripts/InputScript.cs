@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InputScript : MonoBehaviour {
-
 	// Use this for initialization
 	void Start () {
-		
 	}
 	
 	// Update is called once per frame
@@ -14,12 +12,10 @@ public class InputScript : MonoBehaviour {
         if (Input.GetButtonDown("Fire1"))
         {
             EventManager.fireOnStartJumpR();
-            EventManager.fireOnStartHiveJump();
         }
         if (Input.GetButtonDown("Fire2"))
         {
             EventManager.fireOnStartJumpL();
-            EventManager.fireOnStartHiveJump();
         }
     }
 }
