@@ -26,12 +26,12 @@ public class EventManager : MonoBehaviour
             onStartHiveJump();
     }
 
-    public delegate void StartOctopusLegAction();
-    public static event StartOctopusLegAction onStartOctopusLeg;
-    public static void fireOnStartOctopusLeg ()
+    public delegate void StartWaveAction(int dir);
+    public static event StartWaveAction onStartWave;
+    public static void fireOnStartWave (int dir)
     {
-        if (onStartOctopusLeg != null)
-            onStartOctopusLeg();
+        if (onStartWave != null)
+            onStartWave(dir);
     }
 
     public delegate void StartSubmarineBreakingAction();

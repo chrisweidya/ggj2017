@@ -24,6 +24,11 @@ public class InputScript : MonoBehaviour {
             EventManager.fireOnStartJumpR(1);
             //    chargeR = 0.5f;
         }
+        if (Input.GetButtonDown("PulseRight"))
+        {
+            EventManager.fireOnStartWave(1);
+            //    chargeR = 0.5f;
+        }
         /*
         if (Input.GetButton("Fire2"))
         {
@@ -34,6 +39,11 @@ public class InputScript : MonoBehaviour {
         {
             EventManager.fireOnStartJumpL(1);
             //   chargeL = 0.5f;
+        }
+        if (Input.GetButtonDown("PulseLeft"))
+        {
+            EventManager.fireOnStartWave(-1);
+            //    chargeR = 0.5f;
         }
     }
     void FixedUpdate()

@@ -17,6 +17,11 @@ public class Platform_RotatorR : MonoBehaviour
     private Rigidbody rb;
     private Quaternion originalRotation;
     private Vector3 originalPos;
+
+    //let and right height offsets
+    public float lheight = 0f;
+    public float rheight = 0f;
+
     // Use this for initialization
     void Start()
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Platform_RotatorL : MonoBehaviour
+public class Platform_Rotator : MonoBehaviour
 {
     //  public GameObject hive;
     //    public HiveScript hiveScript;
@@ -21,14 +21,23 @@ public class Platform_RotatorL : MonoBehaviour
     //let and right height offsets
     public float lheight = 0f;
     public float rheight = 0f;
-
+    public enum Type {Left, Right};
+    public Type type;
     // Use this for initialization
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.centerOfMass = new Vector3(0.5f, 0, 0);
         //      hiveScript = hive.GetComponent<HiveScript>();
-        EventManager.onStartJumpL += jump;
+        if (type == Type.Left)
+        {
+            rb.centerOfMass = new Vector3(0.5f, 0, 0);
+            EventManager.onStartJumpL += jump;
+        }
+        else if (type == Type.Right)
+        {
+            rb.centerOfMass = new Vector3(-0.5f, 0, 0);
+            EventManager.onStartJumpR += jump;
+        }
         groundPos = transform.localPosition;
         //   groundHeight = transform.position.y;
         //        maxJumpHeight = transform.localPosition.y + maxJumpHeight;
@@ -65,8 +74,10 @@ public class Platform_RotatorL : MonoBehaviour
     IEnumerator turn(float charge)
     {
         float v = charge * 150 * Time.deltaTime;
-        rb.AddTorque(-transform.forward * v, ForceMode.Impulse);
-
+        if(type == Type.Left)
+            rb.AddTorque(-transform.forward * v, ForceMode.Impulse);
+        else
+            rb.AddTorque(transform.forward * v, ForceMode.Impulse);
         rb.constraints &= (~RigidbodyConstraints.FreezePositionY & ~RigidbodyConstraints.FreezePositionX);
         //   rb.AddForce(Quaternion.AngleAxis(45, Vector3.forward) * Vector3.up * 5f , ForceMode.Impulse);
         Debug.DrawRay(transform.position, Quaternion.AngleAxis(45, Vector3.forward) * Vector3.up * 2f);
