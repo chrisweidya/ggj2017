@@ -23,6 +23,10 @@ public class Platform_Rotator : MonoBehaviour
     public float rheight = 0f;
     public enum Type {Left, Right};
     public Type type;
+
+    [SerializeField]
+    private BoxCollider beeSpawner;
+
     // Use this for initialization
     void Start()
     {
@@ -43,6 +47,7 @@ public class Platform_Rotator : MonoBehaviour
         //        maxJumpHeight = transform.localPosition.y + maxJumpHeight;
         originalRotation = transform.rotation;
         originalPos = transform.localPosition;
+        beeSpawner.enabled = false; 
     }
 
     // Update is called once per frame
@@ -60,6 +65,10 @@ public class Platform_Rotator : MonoBehaviour
     private void jump(float charge)
     {
         StartCoroutine(turn(charge));
+        if (beeSpawner.enabled == false)
+        {
+            StartCoroutine(ActivateTrigger());
+        }
     }
     void OnCollisionStay(Collision collision)
     {
@@ -90,5 +99,12 @@ public class Platform_Rotator : MonoBehaviour
         transform.localPosition = originalPos;
         rb.constraints |= (RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionX);
         yield return new WaitForEndOfFrame();
+    }
+
+    private IEnumerator ActivateTrigger()
+    {
+        beeSpawner.enabled = true;
+        yield return new WaitForSeconds(1);
+        beeSpawner.enabled = false; 
     }
 }
