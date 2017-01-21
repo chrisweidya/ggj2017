@@ -82,6 +82,8 @@
     <Compile Include="Assets\Scripts\InputScript.cs" />
     <Compile Include="Assets\Scripts\Platform_JumperL.cs" />
     <Compile Include="Assets\Scripts\Platform_JumperR.cs" />
+    <Compile Include="Assets\Scripts\Platform_RotatorL.cs" />
+    <Compile Include="Assets\Scripts\Platform_RotatorR.cs" />
     <Compile Include="Assets\Scripts\Startup.cs" />
     <Compile Include="Assets\Scripts\Tags.cs" />
   </ItemGroup>

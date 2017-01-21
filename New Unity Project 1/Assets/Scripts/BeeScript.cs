@@ -15,7 +15,7 @@ public class BeeScript : MonoBehaviour
 	void Start ()
     {
         hive = GameObject.FindGameObjectWithTag("Hive");
-        startPos = hive.GetComponent<BeeHive>().beeStart; 
+        startPos = hive.GetComponent<HiveScript>().beeStart; 
         transform.position = Random.onUnitSphere;
         transform.position = new Vector3(transform.position.x * startPos, transform.position.y * startPos, transform.position.z * startPos); 
         randomDir = new Vector3(0, Random.Range(-1f, 1f), Random.Range(-1f, 1f));

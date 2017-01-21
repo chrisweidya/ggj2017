@@ -24,7 +24,7 @@ public class BeeHive : MonoBehaviour
 		
 	}
 
-    void OnCollisionEnter(Collider other)
+    void OnCollisionEnter(Collision other)
     {
         //if (other.gameObject.tag == insert tag)
         {
