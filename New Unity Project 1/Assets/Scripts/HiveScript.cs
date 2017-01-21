@@ -12,15 +12,16 @@ public class HiveScript : MonoBehaviour {
     public float beeStart;
     [SerializeField]
     private float sphereIncrease;
-    [SerializeField]
-    private int beeSpawnAmount;
+    public int totalBees;
+    private Vector3 startPos; 
 
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody>();
-  //      EventManager.onStartHiveJump += jump;
+        //      EventManager.onStartHiveJump += jump;
 
         beeStart = 1;
+        startPos = transform.position; 
 
     }
 
@@ -32,13 +33,32 @@ public class HiveScript : MonoBehaviour {
     {
         rb.AddForce(new Vector3(0, 0.10f * Time.deltaTime, 0), ForceMode.Impulse);
     }
-    
-    void OnCollisionEnter(Collision collision)
+
+    void OnTriggerEnter(Collider other)
     {
-     //   grounded = true;
+        if (other.gameObject.tag == "L_Platform" || other.gameObject.tag == "R_Platform")
+        {
+            SpawnBee(); 
+        }
     }
-    void OnCollisionExit(Collision collision)
+
+    private void SpawnBee()
     {
-     //   grounded = false;
+        GameObject newBee = Instantiate(bee, transform.position, Quaternion.identity);
+        newBee.transform.parent = this.transform; 
+        totalBees++;
+        beeStart += sphereIncrease; 
+    }
+
+    public void respawn()
+    {
+        transform.position = startPos;
+        GameObject[] bees =GameObject.FindGameObjectsWithTag("bee");
+        for (int i = 0; i < bees.Length; i++)
+        {
+            Destroy(bees[i]);
+
+            totalBees = 0;
+        }
     }
 }
