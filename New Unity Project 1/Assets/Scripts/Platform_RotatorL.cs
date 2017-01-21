@@ -27,7 +27,7 @@ public class Platform_RotatorL : MonoBehaviour
         //   groundHeight = transform.position.y;
         maxJumpHeight = transform.localPosition.y + maxJumpHeight;
         originalRotation = transform.rotation;
-        originalPos = transform.position;
+        originalPos = transform.localPosition;
     }
 
     // Update is called once per frame
@@ -81,7 +81,7 @@ public class Platform_RotatorL : MonoBehaviour
     }
     IEnumerator turn()
     {
-        float v = 60 * Time.deltaTime;
+        float v = 80 * Time.deltaTime;
         rb.AddTorque(-transform.forward * v, ForceMode.Impulse);
 
         rb.constraints &= ~RigidbodyConstraints.FreezePositionY;
@@ -92,7 +92,7 @@ public class Platform_RotatorL : MonoBehaviour
         yield return new WaitForSeconds(0.15f);
 
         transform.rotation = originalRotation;
-        transform.position = originalPos;
+        transform.localPosition = originalPos;
         rb.constraints |= RigidbodyConstraints.FreezePositionY;
         yield return new WaitForEndOfFrame();
     }
