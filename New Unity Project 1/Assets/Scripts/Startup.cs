@@ -13,15 +13,12 @@ public class Startup : MonoBehaviour
     private GameObject[] platform;
     public float amplitudeScalar = 1.0f;
     public float forceValue = 2.0f;
-    public float eqScalar = 1f;
+
     public float speedScalar = 0.1f;
     public float hiveScaleSpeed = 0.001f;
     public float pulseCooldown = 3f;
-    [SerializeField]
-    private float[] audio_data;
-    [SerializeField]
-    private float lerpTime;
-    private float timetaken = 0;
+
+  
     private float sinTime = 0;
 
     
@@ -71,24 +68,15 @@ public class Startup : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        audio_data = gameObject.GetComponent<Beater>().data;
+        
         hive.transform.localScale = new Vector3(hive.transform.localScale.x + (hiveScaleSpeed), 
             hive.transform.localScale.y + (hiveScaleSpeed), hive.transform.localScale.z + (hiveScaleSpeed));
     }
 
     void FixedUpdate()
     {
-        timetaken += Time.deltaTime;
-        if (timetaken >= lerpTime)
-            timetaken = 0;
-
-        /*for (int i=0; i<count; i++)
-        {
-            platform[i].transform.position = new Vector3(platform[i].transform.position.x, 
-                amplitudeScalar*Mathf.Sin(Time.time*(speedScalar*i)), platform[i].transform.position.z);
-
-        }
-        */
+        
+       
         if(pulseRight)
         {
             sinTime += Time.deltaTime;
@@ -123,42 +111,7 @@ public class Startup : MonoBehaviour
             }
             
         }
-        /*audio_data = gameObject.GetComponent<Beater>().data;
-        for (int i = 1; i < count-1; i++)
-        {
-            float beatHeight;
-            if(i%2 == 0)
-            {
-                beatHeight = audio_data[count - i - 1] ;
-            }
-            else
-            {
-                beatHeight = audio_data[i];
-            }
-            
-            platform[i].transform.position = new Vector3(platform[i].transform.position.x,
-                        Mathf.Lerp(platform[i].transform.position.y,
-                                   platform[i].transform.position.y + eqScalar * beatHeight,
-                                   timetaken / lerpTime),
-                        platform[i].transform.position.z);
-                        
-        /*}
-
-            for (int i = 0; i < count / 2; i++)
-            {
-                platform[i].transform.position = new Vector3(platform[i].transform.position.x,
-                        Mathf.Lerp(platform[i].transform.position.y,
-                                   platform[i].transform.position.y + eqScalar * audio_data[i],
-                                   timetaken / lerpTime),
-                        platform[i].transform.position.z);
-
-                /*platform[count - 1 - i].transform.position = new Vector3(platform[count - 1 - i].transform.position.x,
-                        Mathf.Lerp(platform[i].transform.position.y,
-                                   platform[i].transform.position.y + eqScalar * audio_data[i],
-                                   timetaken / lerpTime),
-                        platform[count - 1 - i].transform.position.z);
-
-            } */
+        
         }
     float calcHeight(float cycle)
     {
