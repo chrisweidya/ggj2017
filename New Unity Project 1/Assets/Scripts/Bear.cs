@@ -31,7 +31,7 @@ public class Bear : MonoBehaviour
 
         if (other.gameObject.tag == "Hive")
         {
-            health -= other.gameObject.GetComponent<HiveScript>().totalBees;
+            health -= other.gameObject.GetComponent<HiveScript>().totalBees * other.gameObject.transform.localScale.x;
             healthSlider.value = health;
             anim.SetTrigger("hit");
             honeyAmt += 1;
@@ -77,9 +77,12 @@ public class Bear : MonoBehaviour
     {
         anim.SetTrigger("die");
         otherBear.GetComponent<Animator>().SetTrigger("dance");
-
-        yield return new WaitForSeconds(3);
-
+        BoxCollider collider = GetComponent<BoxCollider>();
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.useGravity = false;
+        collider.enabled = false;
+        yield return new WaitForSeconds(5);
+        EventManager.fireOnUnsub();
         if (player1 == true)
         {
             SceneManager.LoadScene("Player2Win");

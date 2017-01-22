@@ -6,6 +6,7 @@ public class HiveScript : MonoBehaviour {
     private Rigidbody rb;
     private bool isJumping = false;
     public bool grounded = true;
+    public float scaleSpeed = 0.001f;
 
     [SerializeField]
     private GameObject bee;
@@ -18,8 +19,8 @@ public class HiveScript : MonoBehaviour {
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody>();
-        //      EventManager.onStartHiveJump += jump;
-
+        transform.localScale = new Vector3(1, 1, 1);
+        rb.velocity = Vector3.zero;
         beeStart = 1;
         startPos = transform.position; 
 
@@ -27,6 +28,9 @@ public class HiveScript : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+
+        transform.localScale = new Vector3(transform.localScale.x + scaleSpeed,
+            transform.localScale.y + scaleSpeed, transform.localScale.z + scaleSpeed);
     }
 
     void jump()
@@ -53,13 +57,19 @@ public class HiveScript : MonoBehaviour {
     public void respawn()
     {
         transform.position = startPos;
-        GameObject[] bees =GameObject.FindGameObjectsWithTag("bee");
-        for (int i = 0; i < bees.Length; i++)
+        rb.velocity = Vector3.zero;
+        transform.localScale = new Vector3(1, 1, 1);
+        foreach (Transform child in transform)
         {
-            Destroy(bees[i]);
+            if (child.CompareTag("bee"))
+            {
+                Destroy(child.gameObject);
+                print("destroyed");
+            }
 
-            totalBees = 0;
         }
+
+        totalBees = 0;
         beeStart = 1; 
     }
 

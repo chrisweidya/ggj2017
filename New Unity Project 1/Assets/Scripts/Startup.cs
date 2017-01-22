@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class Startup : MonoBehaviour
 {
+    public GameObject platforms;
     public GameObject l_platform;
     public GameObject r_platform;
     public GameObject hive;
@@ -15,20 +16,18 @@ public class Startup : MonoBehaviour
     public float forceValue = 2.0f;
 
     public float speedScalar = 0.1f;
-    public float hiveScaleSpeed = 0.001f;
+    public float hiveSpawnInterval = 30f;
     public float pulseCooldown = 3f;
-
-  
-    private float sinTime = 0;
-
     
-
+    private float sinTime = 0;
+    
     private bool pulseRight = false;
     private bool pulseLeft = false;
     private bool canPulseRight = true;
     private bool canPulseLeft = true;
     public float period = 1f;
     private Vector3 originalHeight;
+    private float timeElapsed = 0f;
 
     [SerializeField]
     private AudioSource aud;
@@ -37,9 +36,7 @@ public class Startup : MonoBehaviour
     private AudioClip whooshup;
     [SerializeField]
     private AudioClip whooshdown;
-
-
-
+    
     void Awake()
     {
 
@@ -51,6 +48,7 @@ public class Startup : MonoBehaviour
                 platform[j++] = Instantiate(l_platform, new Vector3(0.95f * i, 0, 0), Quaternion.identity);
             else
                 platform[j++] = Instantiate(r_platform, new Vector3(0.95f * i, 0, 0), Quaternion.identity);
+            platform[j - 1].transform.parent = platforms.transform;
         }
 
       
@@ -61,6 +59,7 @@ public class Startup : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        EventManager.onUnsub += unsubscribe;
         EventManager.onStartWave += pulseSender;
         InvokeRepeating("propagator", 0f, 0.04f);
     }
@@ -68,9 +67,12 @@ public class Startup : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        hive.transform.localScale = new Vector3(hive.transform.localScale.x + (hiveScaleSpeed), 
-            hive.transform.localScale.y + (hiveScaleSpeed), hive.transform.localScale.z + (hiveScaleSpeed));
+        timeElapsed += Time.deltaTime;
+        if(timeElapsed > hiveSpawnInterval)
+        {
+            Instantiate(hive, new Vector3(0, 10, 0), Quaternion.identity);
+            timeElapsed = 0;
+        }   
     }
 
     void FixedUpdate()
@@ -209,7 +211,11 @@ public class Startup : MonoBehaviour
         wm.velocity = Vector3.zero;
         Vector3 go = wm.gameObject.transform.position;
         wm.gameObject.transform.position = new Vector3(go.x, origY, go.z);
-
+    }
+    public void unsubscribe()
+    {
+        EventManager.onStartWave -= pulseSender;
+        EventManager.onUnsub -= unsubscribe;
     }
 
 

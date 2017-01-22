@@ -34,11 +34,11 @@ public class EventManager : MonoBehaviour
             onStartWave(dir);
     }
 
-    public delegate void StartSubmarineBreakingAction();
-    public static event StartSubmarineBreakingAction onSubmarineBreaking;
-    public static void fireOnSubmarineBreaking ()
+    public delegate void StartUnsubAction();
+    public static event StartUnsubAction onUnsub;
+    public static void fireOnUnsub ()
     {
-        if(onSubmarineBreaking != null)
-            onSubmarineBreaking();
+        if(onUnsub != null)
+            onUnsub();
     }
 }

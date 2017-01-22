@@ -47,6 +47,7 @@ public class Platform_Rotator : MonoBehaviour
             rb.centerOfMass = new Vector3(-0.5f, 0, 0);
             EventManager.onStartJumpR += jump;
         }
+        EventManager.onUnsub += unsubscribe;
         groundPos = transform.localPosition;
         //   groundHeight = transform.position.y;
         //        maxJumpHeight = transform.localPosition.y + maxJumpHeight;
@@ -115,5 +116,14 @@ public class Platform_Rotator : MonoBehaviour
         beeSpawner.enabled = true;
         yield return new WaitForSeconds(1);
         beeSpawner.enabled = false; 
+    }
+
+    public void unsubscribe()
+    {
+        if(type == Type.Left)
+            EventManager.onStartJumpL -= jump;
+        else
+            EventManager.onStartJumpR -= jump;
+        EventManager.onUnsub -= unsubscribe;
     }
 }

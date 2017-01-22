@@ -11,7 +11,8 @@ public class Cooldown : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         EventManager.onStartWave += fillSlider;
-	}
+        EventManager.onUnsub += unsubscribe;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -41,5 +42,10 @@ public class Cooldown : MonoBehaviour {
             yield return null;
         }
         filled = true;
+    }
+    private void unsubscribe()
+    {
+        EventManager.onStartWave -= fillSlider;
+        EventManager.onUnsub -= unsubscribe;
     }
 }
