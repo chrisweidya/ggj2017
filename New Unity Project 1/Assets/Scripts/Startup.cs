@@ -88,7 +88,6 @@ public class Startup : MonoBehaviour
             WaveMakerR.transform.position = new Vector3(platform[count - 2].transform.position.x, 0, 0);
             WaveMakerR.GetComponent<Rigidbody>().velocity = new Vector3(-30, 0, 0);
             MainPlatform pr = platform[count - 1].GetComponent<MainPlatform>();
-            
             platform[count - 1].transform.position = new Vector3(platPos(count-1).x, y, platPos(count-1).z);
             
             pr.rheight = y;
@@ -216,7 +215,10 @@ public class Startup : MonoBehaviour
             lh = pr.lheight; 
             rh = pr.rheight;
             ht = lh + rh;
-            
+            if(lh > rh + 0.1f)
+                pr.turn(50);
+            else if( rh > lh + 0.1f)
+                pr.turn(-50);
             platform[i].transform.position = new Vector3(platPos(i).x,
                 ht,
                 platPos(i).z);
