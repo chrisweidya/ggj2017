@@ -7,6 +7,8 @@ public class InputScript : MonoBehaviour {
     private float chargeR = 0.5f;
     private float chargeL = 0.5f;
     public float chargeSpeed = 0.01f;
+
+    
 	void Start () {
 	}
 	
@@ -26,6 +28,7 @@ public class InputScript : MonoBehaviour {
         }
         if (Input.GetButtonDown("PulseRight"))
         {
+            //bearR.GetComponent<Animator>().Play("bear_Jump");
             EventManager.fireOnStartWave(1);
             //    chargeR = 0.5f;
         }

@@ -12,6 +12,7 @@ public class Startup : MonoBehaviour
     public int count = 0;
     private GameObject[] platform;
     public float amplitudeScalar = 1.0f;
+    public float forceValue = 2.0f;
     public float eqScalar = 1f;
     public float speedScalar = 0.1f;
     public float hiveScaleSpeed = 0.001f;
@@ -29,6 +30,12 @@ public class Startup : MonoBehaviour
     private bool canPulseLeft = true;
     public float period = 1f;
     private Vector3 originalHeight;
+
+    [Header("Wave Makers")]
+    [SerializeField]  
+    private GameObject WaveMakerL;
+    [SerializeField]
+    private GameObject WaveMakerR;
     
     void Awake()
     {
@@ -78,8 +85,12 @@ public class Startup : MonoBehaviour
         {
             sinTime += Time.deltaTime;
             float y = amplitudeScalar * Mathf.Sin(10 * sinTime);
+            WaveMakerR.transform.position = new Vector3(platform[count - 2].transform.position.x, 0, 0);
+            WaveMakerR.GetComponent<Rigidbody>().velocity = new Vector3(-30, 0, 0);
             MainPlatform pr = platform[count - 1].GetComponent<MainPlatform>();
+            
             platform[count - 1].transform.position = new Vector3(platPos(count-1).x, y, platPos(count-1).z);
+            
             pr.rheight = y;
             if(16*sinTime >= period && y >- 0.1f && y < 0.1f)
             {
@@ -93,8 +104,13 @@ public class Startup : MonoBehaviour
         {
             sinTime += Time.deltaTime;
             float y = amplitudeScalar * Mathf.Sin(10 * sinTime);
+            WaveMakerL.transform.position = new Vector3(platform[1].transform.position.x, 0, 0);
+            WaveMakerL.GetComponent<Rigidbody>().velocity = new Vector3(30, 0, 0);
+
+           
             MainPlatform pr = platform[0].GetComponent<MainPlatform>();
             platform[0].transform.position = new Vector3(platPos(0).x, y, platPos(0).z);
+            
             pr.lheight = y;
             if (16 * sinTime >= period && y > -0.1f && y < 0.1f)
             {
@@ -168,7 +184,7 @@ public class Startup : MonoBehaviour
 
         MainPlatform pr, prl, prr;
         float lh, rh, ht;
-
+        
         for (int i = count - 2; i > 0; i--)
         {
             currPlatPos = platPos(i);
@@ -196,9 +212,11 @@ public class Startup : MonoBehaviour
         for (int i=1;i<count-1;i++)
         {
             pr = platform[i].GetComponent<MainPlatform>();
+            
             lh = pr.lheight; 
             rh = pr.rheight;
             ht = lh + rh;
+            
             platform[i].transform.position = new Vector3(platPos(i).x,
                 ht,
                 platPos(i).z);
@@ -222,6 +240,15 @@ public class Startup : MonoBehaviour
         yield return new WaitForSeconds(secs);
         canPulseRight = true;
         yield return null;
+    }
+
+    IEnumerator wavezero(Rigidbody wm, float origY)
+    {
+        yield return new WaitForSeconds(0.05f);
+        wm.velocity = Vector3.zero;
+        Vector3 go = wm.gameObject.transform.position;
+        wm.gameObject.transform.position = new Vector3(go.x, origY, go.z);
+
     }
 
 

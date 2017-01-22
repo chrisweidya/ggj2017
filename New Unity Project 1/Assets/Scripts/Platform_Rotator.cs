@@ -62,9 +62,9 @@ public class Platform_Rotator : MonoBehaviour
     {
     }
 
-    private void jump(float charge)
+    private void jump(int dir)
     {
-        StartCoroutine(turn(charge));
+        StartCoroutine(turn(dir));
         if (beeSpawner.enabled == false)
         {
             StartCoroutine(ActivateTrigger());
@@ -80,9 +80,9 @@ public class Platform_Rotator : MonoBehaviour
         //      if (collision.gameObject.CompareTag("Hive"))
         //         inContact = false;
     }
-    IEnumerator turn(float charge)
+    IEnumerator turn(int dir)
     {
-        float v = charge * 150 * Time.deltaTime;
+        float v = 150 * Time.deltaTime;
         if(type == Type.Left)
             rb.AddTorque(-transform.forward * v, ForceMode.Impulse);
         else
