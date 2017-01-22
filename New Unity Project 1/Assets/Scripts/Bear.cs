@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Bear : MonoBehaviour
 {
@@ -36,8 +37,7 @@ public class Bear : MonoBehaviour
             honeyText.text = "Honey: " + honeyAmt;
             if (health <= 0)
             {
-                anim.SetTrigger("die");
-                otherBear.GetComponent<Animator>().SetTrigger("dance"); 
+                StartCoroutine("EndGame");
             }
             other.gameObject.GetComponent<HiveScript>().respawn(); 
         }
@@ -70,5 +70,25 @@ public class Bear : MonoBehaviour
             anim.SetTrigger("jump");
         }
 
+    }
+
+    private IEnumerator EndGame()
+    {
+        anim.SetTrigger("die");
+        otherBear.GetComponent<Animator>().SetTrigger("dance");
+
+        yield return new WaitForSeconds(1);
+
+        if (player1 == true)
+        {
+            SceneManager.LoadScene("Player1Win");
+        }
+
+        else
+        {
+            SceneManager.LoadScene("Player2Win");
+        }
+
+        
     }
 }
