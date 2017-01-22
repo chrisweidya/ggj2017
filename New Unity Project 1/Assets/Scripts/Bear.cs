@@ -15,7 +15,7 @@ public class Bear : MonoBehaviour
     private float honeyAmt = 0; 
 
     [SerializeField]
-    private Text healthText;
+    private Slider healthSlider;
     [SerializeField]
     private Text honeyText; 
 
@@ -30,9 +30,13 @@ public class Bear : MonoBehaviour
         if (other.gameObject.tag == "Hive")
         {
             health -= other.gameObject.GetComponent<HiveScript>().totalBees;
-            healthText.text = "Health: " + health;
+            healthSlider.value = health;
             honeyAmt += 1;
-            honeyText.text = "Honey: " + honeyAmt; 
+            honeyText.text = "Honey: " + honeyAmt;
+            if (health <= 0)
+            {
+
+            }
             other.gameObject.GetComponent<HiveScript>().respawn(); 
         }
     }
@@ -47,7 +51,8 @@ public class Bear : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        anim = GetComponent<Animator>(); 
+        anim = GetComponent<Animator>();
+        healthSlider.maxValue = health; 
 	}
 
     // Update is called once per frame

@@ -60,5 +60,7 @@ public class HiveScript : MonoBehaviour {
 
             totalBees = 0;
         }
+        beeStart = 1; 
     }
+
 }
