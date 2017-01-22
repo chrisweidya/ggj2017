@@ -78,16 +78,16 @@ public class Bear : MonoBehaviour
         anim.SetTrigger("die");
         otherBear.GetComponent<Animator>().SetTrigger("dance");
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(3);
 
         if (player1 == true)
         {
-            SceneManager.LoadScene("Player1Win");
+            SceneManager.LoadScene("Player2Win");
         }
 
         else
         {
-            SceneManager.LoadScene("Player2Win");
+            SceneManager.LoadScene("Player1Win");
         }
 
         
