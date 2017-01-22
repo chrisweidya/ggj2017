@@ -27,6 +27,11 @@ public class Platform_Rotator : MonoBehaviour
     [SerializeField]
     private BoxCollider beeSpawner;
 
+    private AudioSource aud;
+
+    [SerializeField]
+    private AudioClip weird;
+
     // Use this for initialization
     void Start()
     {
@@ -47,7 +52,10 @@ public class Platform_Rotator : MonoBehaviour
         //        maxJumpHeight = transform.localPosition.y + maxJumpHeight;
         originalRotation = transform.rotation;
         originalPos = transform.localPosition;
-        beeSpawner.enabled = false; 
+        beeSpawner.enabled = false;
+
+        aud = GetComponent<AudioSource>();
+
     }
 
     // Update is called once per frame
@@ -87,9 +95,10 @@ public class Platform_Rotator : MonoBehaviour
             rb.AddTorque(-transform.forward * v, ForceMode.Impulse);
         else
             rb.AddTorque(transform.forward * v, ForceMode.Impulse);
+        aud.PlayOneShot(weird);
         rb.constraints &= (~RigidbodyConstraints.FreezePositionY & ~RigidbodyConstraints.FreezePositionX);
         //   rb.AddForce(Quaternion.AngleAxis(45, Vector3.forward) * Vector3.up * 5f , ForceMode.Impulse);
-        Debug.DrawRay(transform.position, Quaternion.AngleAxis(45, Vector3.forward) * Vector3.up * 2f);
+        //Debug.DrawRay(transform.position, Quaternion.AngleAxis(45, Vector3.forward) * Vector3.up * 2f);
         yield return new WaitForSeconds(0.1f);
         rb.angularVelocity = Vector3.zero;
 

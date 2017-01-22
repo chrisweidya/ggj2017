@@ -24,6 +24,8 @@ public class Startup : MonoBehaviour
     private float timetaken = 0;
     private float sinTime = 0;
 
+    
+
     private bool pulseRight = false;
     private bool pulseLeft = false;
     private bool canPulseRight = true;
@@ -31,12 +33,16 @@ public class Startup : MonoBehaviour
     public float period = 1f;
     private Vector3 originalHeight;
 
-    [Header("Wave Makers")]
-    [SerializeField]  
-    private GameObject WaveMakerL;
     [SerializeField]
-    private GameObject WaveMakerR;
-    
+    private AudioSource aud;
+    [Header("Audio Clips")]
+    [SerializeField]
+    private AudioClip whooshup;
+    [SerializeField]
+    private AudioClip whooshdown;
+
+
+
     void Awake()
     {
 
@@ -52,6 +58,8 @@ public class Startup : MonoBehaviour
 
       
         originalHeight = platform[0].transform.position;
+
+       
     }
     // Use this for initialization
     void Start()
@@ -85,8 +93,6 @@ public class Startup : MonoBehaviour
         {
             sinTime += Time.deltaTime;
             float y = amplitudeScalar * Mathf.Sin(10 * sinTime);
-            WaveMakerR.transform.position = new Vector3(platform[count - 2].transform.position.x, 0, 0);
-            WaveMakerR.GetComponent<Rigidbody>().velocity = new Vector3(-30, 0, 0);
             MainPlatform pr = platform[count - 1].GetComponent<MainPlatform>();
             platform[count - 1].transform.position = new Vector3(platPos(count-1).x, y, platPos(count-1).z);
             
@@ -98,15 +104,12 @@ public class Startup : MonoBehaviour
                 pulseRight = false;
                 pr.rheight = 0;
             }
+            
         }
         if (pulseLeft)
         {
             sinTime += Time.deltaTime;
-            float y = amplitudeScalar * Mathf.Sin(10 * sinTime);
-            WaveMakerL.transform.position = new Vector3(platform[1].transform.position.x, 0, 0);
-            WaveMakerL.GetComponent<Rigidbody>().velocity = new Vector3(30, 0, 0);
-
-           
+            float y = amplitudeScalar * Mathf.Sin(10 * sinTime);           
             MainPlatform pr = platform[0].GetComponent<MainPlatform>();
             platform[0].transform.position = new Vector3(platPos(0).x, y, platPos(0).z);
             
@@ -118,8 +121,9 @@ public class Startup : MonoBehaviour
                 pulseLeft = false;
                 pr.lheight = 0;
             }
+            
         }
-        audio_data = gameObject.GetComponent<Beater>().data;
+        /*audio_data = gameObject.GetComponent<Beater>().data;
         for (int i = 1; i < count-1; i++)
         {
             float beatHeight;
@@ -152,9 +156,9 @@ public class Startup : MonoBehaviour
                         Mathf.Lerp(platform[i].transform.position.y,
                                    platform[i].transform.position.y + eqScalar * audio_data[i],
                                    timetaken / lerpTime),
-                        platform[count - 1 - i].transform.position.z);*/
+                        platform[count - 1 - i].transform.position.z);
 
-            }
+            } */
         }
     float calcHeight(float cycle)
     {
@@ -169,11 +173,13 @@ public class Startup : MonoBehaviour
         {
             StartCoroutine(pulseRightCooldown(pulseCooldown));
             pulseRight = true;
+            aud.PlayOneShot(whooshup);
         }
         else if (dir == -1 && canPulseLeft)
         {
             StartCoroutine(pulseLeftCooldown(pulseCooldown));
             pulseLeft = true;
+            aud.PlayOneShot(whooshdown);
         }
     }
 
