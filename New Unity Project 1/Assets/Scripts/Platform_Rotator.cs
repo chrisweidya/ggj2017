@@ -95,7 +95,7 @@ public class Platform_Rotator : MonoBehaviour
             rb.AddTorque(-transform.forward * v, ForceMode.Impulse);
         else
             rb.AddTorque(transform.forward * v, ForceMode.Impulse);
-        aud.PlayOneShot(weird);
+        aud.Play();
         rb.constraints &= (~RigidbodyConstraints.FreezePositionY & ~RigidbodyConstraints.FreezePositionX);
         //   rb.AddForce(Quaternion.AngleAxis(45, Vector3.forward) * Vector3.up * 5f , ForceMode.Impulse);
         //Debug.DrawRay(transform.position, Quaternion.AngleAxis(45, Vector3.forward) * Vector3.up * 2f);

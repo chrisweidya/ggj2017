@@ -9,7 +9,7 @@ public class Bear : MonoBehaviour
     [SerializeField]
     private bool isGrounded;
     private Animator anim;
-    private float health = 100; 
+    private float health = 50; 
     [SerializeField]
     private bool player1;
     [SerializeField]
@@ -33,6 +33,7 @@ public class Bear : MonoBehaviour
         {
             health -= other.gameObject.GetComponent<HiveScript>().totalBees;
             healthSlider.value = health;
+            anim.SetTrigger("hit");
             honeyAmt += 1;
             honeyText.text = "Honey: " + honeyAmt;
             if (health <= 0)
