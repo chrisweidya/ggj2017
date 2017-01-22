@@ -17,8 +17,9 @@ public class Bear : MonoBehaviour
     [SerializeField]
     private Slider healthSlider;
     [SerializeField]
-    private Text honeyText; 
-
+    private Text honeyText;
+    [SerializeField]
+    private GameObject otherBear; 
 
     void OnCollisionEnter(Collision other)
     {
@@ -35,7 +36,8 @@ public class Bear : MonoBehaviour
             honeyText.text = "Honey: " + honeyAmt;
             if (health <= 0)
             {
-
+                anim.SetTrigger("die");
+                otherBear.GetComponent<Animator>().SetTrigger("dance"); 
             }
             other.gameObject.GetComponent<HiveScript>().respawn(); 
         }
