@@ -20,7 +20,19 @@ public class Bear : MonoBehaviour
     [SerializeField]
     private Text honeyText;
     [SerializeField]
-    private GameObject otherBear; 
+    private GameObject otherBear;
+    [SerializeField]
+    private InputScript input;
+    private bool canInput = true;
+
+    [Header("Audio Clips")]
+    [SerializeField]
+    private AudioClip death1;
+    [SerializeField]
+    private AudioClip death2;
+    [SerializeField]
+    private AudioClip ow1, ow2;
+    private AudioSource aud;
 
     void OnCollisionEnter(Collision other)
     {
@@ -34,6 +46,9 @@ public class Bear : MonoBehaviour
             health -= other.gameObject.GetComponent<HiveScript>().totalBees * other.gameObject.transform.localScale.x;
             healthSlider.value = health;
             anim.SetTrigger("hit");
+            float rand = Random.value;
+            AudioClip ow = (rand > 0.5f) ? ow1 : ow2;
+            aud.PlayOneShot(ow);
             honeyAmt += 1;
             honeyText.text = "Honey: " + honeyAmt;
             if (health <= 0)
@@ -55,18 +70,19 @@ public class Bear : MonoBehaviour
 	void Start ()
     {
         anim = GetComponent<Animator>();
-        healthSlider.maxValue = health; 
+        healthSlider.maxValue = health;
+        aud = GetComponent<AudioSource>();
 	}
 
     // Update is called once per frame
     void Update()
     {
-        if (player1 == true && Input.GetButtonDown("P1Jump") && anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        if (player1 == true && Input.GetButtonDown("P1Jump") && anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && canInput == true)
         {
             anim.SetTrigger("jump");
         }
 
-        if (player1 == false && Input.GetButtonDown("P2Jump") && anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        if (player1 == false && Input.GetButtonDown("P2Jump") && anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && canInput == true)
         {
             anim.SetTrigger("jump");
         }
@@ -75,6 +91,12 @@ public class Bear : MonoBehaviour
 
     private IEnumerator EndGame()
     {
+        print("die");
+        float rand = Random.value;
+        AudioClip death = (rand > 0.5f) ? death1 : death2;
+        aud.PlayOneShot(death);
+        input.enabled = false;
+        canInput = false; 
         anim.SetTrigger("die");
         otherBear.GetComponent<Animator>().SetTrigger("dance");
         BoxCollider collider = GetComponent<BoxCollider>();

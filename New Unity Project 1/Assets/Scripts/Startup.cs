@@ -70,7 +70,7 @@ public class Startup : MonoBehaviour
         timeElapsed += Time.deltaTime;
         if(timeElapsed > hiveSpawnInterval)
         {
-            Instantiate(hive, new Vector3(0, 10, 0), Quaternion.identity);
+            Instantiate(hive, new Vector3(-0.5f, 10, 0), Quaternion.identity);
             timeElapsed = 0;
         }   
     }
