@@ -26,6 +26,6 @@ public class StartButton : MonoBehaviour {
     IEnumerator advanceToNextScene()
     {
         yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene("Main2");
+        SceneManager.LoadScene("Main3");
     }
 }
